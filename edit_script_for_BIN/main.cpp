@@ -5,12 +5,12 @@
 #include "Data.hpp"
 
 using namespace std;
-
+// Головна функція реалізації проекту
 int main() {
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
 
-    BIN_READER reader("log.bin");
+    BIN_READER reader("log.bin"); 
 
     if (!reader.isOpen()) {
         cout << "Не вдалося відкрити файл\n";
