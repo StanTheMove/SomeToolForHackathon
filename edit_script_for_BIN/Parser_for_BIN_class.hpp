@@ -1,11 +1,8 @@
 #pragma once
-#include <iostream>
 #include "BIN_class_struct.hpp"
-#include "bin_reader.cpp"
+#include "Data.hpp"
 
-class parser_for_BIN_class {
+class Parser_for_BIN_class {
 public:
-
-    static void parse (BIN_READER& reader,Data& storage);
-
+    static void parse(BIN_READER& reader, Data& storage);
 };
