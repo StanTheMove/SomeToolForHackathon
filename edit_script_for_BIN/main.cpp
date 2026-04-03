@@ -7,13 +7,13 @@
 using namespace std;
 // Головна функція реалізації проекту
 int main() {
-    SetConsoleCP(1251);
-    SetConsoleOutputCP(1251);
+    SetConsoleCP(65001);
+    SetConsoleOutputCP(65001);
 
     BIN_READER reader("log.bin"); 
 
     if (!reader.isOpen()) {
-        cout << "Не вдалося відкрити файл\n";
+        cout << "do not open file\n";
         return 1;
     }
 
