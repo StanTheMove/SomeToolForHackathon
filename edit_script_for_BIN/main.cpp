@@ -26,17 +26,20 @@ int main() {
     cout << "GPS points: " << storage.gps.size() << endl;
     cout << "IMU records: " << storage.imu.size() << endl;
 
-    for (const auto& g : storage.gps) {
-        cout << "GPS: " << g.altitude << " " << g.latitude << " " << g.longitude << endl;
-    }
+    // for (const auto& g : storage.gps) {
+    //     cout << "GPS: " << g.altitude << " " << g.latitude << " " << g.longitude << endl;
+    // }
 
-    for (const auto& i : storage.imu) {
-        cout << "IMU: " << i.accelX << " " << i.accelY << " " << i.accelZ << endl;
-    }
+    // for (const auto& i : storage.imu) {
+    //     cout << "IMU: " << i.accelX << " " << i.accelY << " " << i.accelZ << endl;
+    // }
 
     TelemetryAnalyzer analyzer;
     FlightMetrics metrics = analyzer.analyzeTelemetry(storage.gps, storage.imu);
-    cout << "Max Speed: " << metrics.maxSpeed << " m/s\n";
+    cout << "Total Distance:   " << metrics.totalDistance << " m" << endl;
+    cout << "Flight Duration:  " << metrics.flightDuration << " s" << endl;
+    cout << "Max Speed:        " << metrics.maxSpeed << " m/s" << endl;
+    cout << "Max Acceleration: " << metrics.maxAcceleration << " m/s^2" << endl;
     
     return 0;
 }
