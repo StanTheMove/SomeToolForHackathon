@@ -16,6 +16,3 @@ bool BIN_READER::readBytes(char* buffer, size_t size) {
     }
 
     return true;
-}
-    
-
