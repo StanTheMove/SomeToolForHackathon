@@ -1,20 +1,13 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "Compile MyProject",
-            "type": "shell",
-            "command": "powershell",
-            "args": [
-                "-Command",
-                "g++ (Get-ChildItem -Recurse -Filter *.cpp).FullName -o MyProgram.exe"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "problemMatcher": ["$gcc"],
-            "detail": "Компільовано всі cpp файли з підпапок в один exe"
-        }
+    "configurations": [
+    {
+        "name": "Launch Program",
+        "program": "${workspaceFolder}/app.js",
+        "request": "launch",
+        "skipFiles": [
+            "<node_internals>/**"
+        ],
+        "type": "node"
+    }
     ]
 }

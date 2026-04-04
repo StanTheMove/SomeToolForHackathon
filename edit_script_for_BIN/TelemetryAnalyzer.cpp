@@ -2,6 +2,7 @@
 #include <cmath>
 #include <algorithm>
 #include <iostream>
+#include "Data.hpp"
 
 //Вхідні дані для GPS та IMU
 struct GPSdata
@@ -15,9 +16,9 @@ struct GPSdata
 struct IMUdata
 {
     double timestamp;
-    double TaccelX;
-    double TaccelY;
-    double TaccelZ;
+    double accelX;
+    double accelY;
+    double accelZ;
 };
 
 struct FlightMetrics
