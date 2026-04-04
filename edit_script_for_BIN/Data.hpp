@@ -1,24 +1,23 @@
 #pragma once
+#include <cstdint>
 #include <vector>
 
-using namespace std;
-
-#pragma pack(push, 1)
 //контейнери для GPS та IMU даних
-struct GPS_container {
-    float x;
-    float y;
+struct GPSdata {
+    double timestamp;
+    double latitude;
+    double longitude;
+    double altitude; 
 };
 
-struct IMU_container {
-    float x1;
-    float y1;
-    float z1;
+struct IMUdata {
+    double timestamp;
+    double accelX;
+    double accelY;
+    double accelZ;
 };
 // загальне сховище (структура для зберігання всіх даних)
 struct Data {
-    vector<GPS_container> gps;
-    vector<IMU_container> imu;
+    std::vector<GPSdata> gps;
+    std::vector<IMUdata> imu;
 };
-
-#pragma pack(pop)

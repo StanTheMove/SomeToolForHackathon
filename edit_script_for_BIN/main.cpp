@@ -1,8 +1,10 @@
+#define NOMINMAX
 #include <iostream>
 #include <windows.h>
 #include "BIN_class_struct.hpp"
 #include "parser_for_BIN_class.hpp"
 #include "Data.hpp"
+#include "TelemetryAnalyzer.hpp"
 
 using namespace std;
 // Головна функція реалізації проекту
@@ -25,12 +27,16 @@ int main() {
     cout << "IMU records: " << storage.imu.size() << endl;
 
     for (const auto& g : storage.gps) {
-        cout << "GPS: " << g.x << " " << g.y << endl;
+        cout << "GPS: " << g.altitude << " " << g.latitude << " " << g.longitude << endl;
     }
 
     for (const auto& i : storage.imu) {
-        cout << "IMU: " << i.x1 << " " << i.y1 << " " << i.z1 << endl;
+        cout << "IMU: " << i.accelX << " " << i.accelY << " " << i.accelZ << endl;
     }
 
+    TelemetryAnalyzer analyzer;
+    FlightMetrics metrics = analyzer.analyzeTelemetry(storage.gps, storage.imu);
+    cout << "Max Speed: " << metrics.maxSpeed << " m/s\n";
+    
     return 0;
 }

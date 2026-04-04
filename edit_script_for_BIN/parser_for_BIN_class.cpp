@@ -2,11 +2,34 @@
 #include <map>
 #include <string>
 #include <iostream>
+#include <cstring> 
 
 #define HEADER1 0xA3
 #define HEADER2 0x95
 
 using namespace std;
+
+#pragma pack(push, 1)
+struct RawIMU{
+    uint64_t TimeUS;
+    float GyrX, GyrY, GyrZ;
+    float AccX, AccY, AccZ;
+};
+
+struct RawGPS{
+    uint8_t Status;
+    uint64_t TimeUS;
+    uint16_t GWk;
+    uint32_t GMs;
+    int32_t Lat;
+    int32_t Lng;
+    float Alt;
+    float Spd;
+    float GCrs;
+    float VZ;
+    uint8_t U;
+};
+#pragma pack(pop)
 
 void Parser_for_BIN_class::parse(BIN_READER& reader, Data& storage) {
 
@@ -57,10 +80,17 @@ void Parser_for_BIN_class::parse(BIN_READER& reader, Data& storage) {
 
                 if (!reader.readBytes(buffer.data(), len))
                     break;
+                if (len >= sizeof(RawGPS)) {
+                    RawGPS* rawGps = reinterpret_cast<RawGPS*>(buffer.data());
 
-                storage.gps.push_back({0,0});
+                    GPSdata cleanPoint;
+                    cleanPoint.timestamp = rawGps->TimeUS / 1e6;
+                    cleanPoint.latitude = rawGps->Lat / 1e7;
+                    cleanPoint.longitude = rawGps->Lng / 1e7;
+                    cleanPoint.altitude = rawGps->Alt;
 
-                cout << "GPS packet found (len=" << len << ")\n";
+                    storage.gps.push_back(cleanPoint);
+                }
             }
 
             else if (type == "IMU") {
@@ -70,9 +100,17 @@ void Parser_for_BIN_class::parse(BIN_READER& reader, Data& storage) {
                 if (!reader.readBytes(buffer.data(), len))
                     break;
 
-                storage.imu.push_back({0,0,0});
+                if (len >= sizeof(RawIMU)) {
+                    RawIMU* rawImu = reinterpret_cast<RawIMU*>(buffer.data());
 
-                cout << "IMU packet found (len=" << len << ")\n";
+                    IMUdata cleanRecord;
+                    cleanRecord.timestamp = rawImu->TimeUS / 1e6;
+                    cleanRecord.accelX = rawImu->AccX;
+                    cleanRecord.accelY = rawImu->AccY;
+                    cleanRecord.accelZ = rawImu->AccZ;
+
+                    storage.imu.push_back(cleanRecord);
+                }
             }
 
             else {
