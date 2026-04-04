@@ -2,24 +2,11 @@
 #include <cmath>
 #include <algorithm>
 #include <iostream>
+#include <limits>
+#include <cmath>
 #include "Data.hpp"
 
 //Вхідні дані для GPS та IMU
-struct GPSdata
-{
-    double timestamp;
-    double latitude;
-    double longitude;
-    double altitude; 
-};
-
-struct IMUdata
-{
-    double timestamp;
-    double accelX;
-    double accelY;
-    double accelZ;
-};
 
 struct FlightMetrics
 {
@@ -47,8 +34,8 @@ class TelemetryAnalyzer
             double radLat1 = convertToRadians(lat1);
             double radLat2 = convertToRadians(lat2);
             
-            double a = std::pow(std::sin(dLat/2), 2) + std::cos(radLat1) * std::cos(radLat2) * std::pow(std::sin(dLon/2), 2);
-            a = std::min(1.0, std::max(0.0, a)); // обмеження a до 1 для уникнення помилок через округлення
+            double a = std::pow(std::sin(dLat/2), 2.0) + std::cos(radLat1) * std::cos(radLat2) * std::pow(std::sin(dLon/2), 2.0);
+            a = std::min(1.0, std::max(0.0, a));
             double d = 2 * EarthRadius * std::atan2(std::sqrt(a), std::sqrt(1-a));
             
             return d;
@@ -83,7 +70,7 @@ class TelemetryAnalyzer
             double velX = 0.0, velY = 0.0, velZ = 0.0;
             for(size_t i = 1; i < imuData.size(); ++i)
             {
-                double dt = (imuData[i].timestamp - imuData[i-1].timestamp)/1000.0; // перетворення мілісекунд в секунди
+                double dt = (imuData[i].timestamp - imuData[i-1].timestamp); // перетворення мілісекунд в секунди
 
                 if(dt <= 0) continue;
 
