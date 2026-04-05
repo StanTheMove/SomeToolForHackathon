@@ -6,22 +6,21 @@
 #include <cmath>
 #include "Data.hpp"
 
-//Вхідні дані для GPS та IMU
-
 struct FlightMetrics
 {
-    double totalDistance = 0.0;
-    double maxSpeed = 0.0;
-    double maxAcceleration = 0.0;
-    double flightDuration = 0.0;
+    double totalDistance = 0.0; // Загальна дистанція в метрах
+    double maxSpeed = 0.0; // Максимальна швидкість в м/с
+    double maxAcceleration = 0.0; // Максимальне прискорення в м/с^2
+    double flightDuration = 0.0; // Тривалість польоту в секундах
 };
 
 class TelemetryAnalyzer
 {
     private:
-        constexpr static double EarthRadius = 6371000.0; 
-        constexpr static double PI = 3.14159265358979323846; 
+        constexpr static double EarthRadius = 6371000.0;// Радіус Землі в метрах, бо БПЛА літає наіколо Землі, а не по прямій лінії
+        constexpr static double PI = 3.14159265358979323846; // Пі для конвертації градусів в радіани
 
+        //Метод конвертує градуси в радіани
         inline double convertToRadians(double degree) const{ 
             return degree * PI / 180.0;
         }
@@ -34,6 +33,7 @@ class TelemetryAnalyzer
             double radLat1 = convertToRadians(lat1);
             double radLat2 = convertToRadians(lat2);
             
+            //формула
             double a = std::pow(std::sin(dLat/2), 2.0) + std::cos(radLat1) * std::cos(radLat2) * std::pow(std::sin(dLon/2), 2.0);
             a = std::min(1.0, std::max(0.0, a));
             double d = 2 * EarthRadius * std::atan2(std::sqrt(a), std::sqrt(1-a));
@@ -41,6 +41,7 @@ class TelemetryAnalyzer
             return d;
         }
 
+        //метод оюбчислення трапеції для інтегрування прискорення в швидкість
         inline double calculateTrapecia(double valPrev, double valCurr, double deltaTime) const {
             return (valPrev + valCurr) / 2.0 * deltaTime;
         }

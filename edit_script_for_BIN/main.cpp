@@ -13,12 +13,20 @@ int main() {
     SetConsoleCP(65001);
     SetConsoleOutputCP(65001);
 
-    BIN_READER reader("log.bin"); 
+    BIN_READER reader("gps.bin"); 
 
     if (!reader.isOpen()) {
         cout << "do not open file\n";
         return 1;
     }
+
+    BIN_READER reader("imu.bin"); 
+
+    if (!reader.isOpen()) {
+        cout << "do not open file\n";
+        return 1;
+    }
+
 
     Data storage;
 
@@ -27,13 +35,13 @@ int main() {
     cout << "GPS points: " << storage.gps.size() << endl;
     cout << "IMU records: " << storage.imu.size() << endl;
 
-    // for (const auto& g : storage.gps) {
-    //     cout << "GPS: " << g.altitude << " " << g.latitude << " " << g.longitude << endl;
-    // }
+    for (const auto& g : storage.gps) {
+        cout << "GPS: " << g.altitude << " " << g.latitude << " " << g.longitude << endl;
+    }
 
-    // for (const auto& i : storage.imu) {
-    //     cout << "IMU: " << i.accelX << " " << i.accelY << " " << i.accelZ << endl;
-    // }
+    for (const auto& i : storage.imu) {
+        cout << "IMU: " << i.accelX << " " << i.accelY << " " << i.accelZ << endl;
+    }
 
     // Аналіз даних та вивід результатів
     TelemetryAnalyzer analyzer;
