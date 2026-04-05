@@ -74,7 +74,7 @@ void Parser_for_BIN_class::parse(BIN_READER& reader, Data& storage) {
             string type = msgTypes[msg_id];
             int len = msgLengths[msg_id];
 
-            if (type == "GPS") {
+            if (type.find("GPS") != string::npos) {
 
                 vector<char> buffer(len);
 
@@ -93,7 +93,7 @@ void Parser_for_BIN_class::parse(BIN_READER& reader, Data& storage) {
                 }
             }
 
-            else if (type == "IMU") {
+            else if (type.find("IMU") != string::npos) {
 
                 vector<char> buffer(len);
 

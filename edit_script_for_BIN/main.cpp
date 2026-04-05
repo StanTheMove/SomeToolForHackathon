@@ -26,6 +26,7 @@ int main() {
 
     Data storage;
     Parser_for_BIN_class::parse(reader_gps, storage);
+    Parser_for_BIN_class::parse(reader_imu, storage);
 
     cout << "GPS points: " << storage.gps.size() << endl;
     cout << "IMU records: " << storage.imu.size() << endl;
